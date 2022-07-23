@@ -11,16 +11,16 @@ export default class extends Controller {
   }
 
   paste(e) {
-    if (this.element.contains(document.activeElement)) {
-      let input = this.input;
-      let files = this.findFiles(e.clipboardData.items, input.multiple);
-      if (files.length && !input.disabled) {
-        input.files = files;
-        input.dispatchEvent(new Event('input', { bubbles: true, cancelable: true }));
-        input.dispatchEvent(new Event('change', { bubbles: true, cancelable: true }));
-        this.dispatch('pasted', { detail: { files: files } });
-        document.activeElement.blur();
-      }
+    if (this.element != document.activeElement) return;
+
+    let input = this.input;
+    let files = this.findFiles(e.clipboardData.items, input.multiple);
+    if (files.length && !input.disabled) {
+      input.files = files;
+      input.dispatchEvent(new Event('input', { bubbles: true, cancelable: true }));
+      input.dispatchEvent(new Event('change', { bubbles: true, cancelable: true }));
+      this.dispatch('pasted', { detail: { files: files } });
+      document.activeElement.blur();
     }
     e.preventDefault();
   }
