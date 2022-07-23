@@ -15,14 +15,17 @@ export default class extends Controller {
 
     let input = this.input;
     let files = this.findFiles(e.clipboardData.items, input.multiple);
-    if (files.length && !input.disabled) {
-      input.files = files;
-      input.dispatchEvent(new Event('input', { bubbles: true, cancelable: true }));
-      input.dispatchEvent(new Event('change', { bubbles: true, cancelable: true }));
-      this.dispatch('pasted', { detail: { files: files } });
-      document.activeElement.blur();
+
+    if (files.length) {
+      if (!input.disabled) {
+        input.files = files;
+        input.dispatchEvent(new Event('input', { bubbles: true, cancelable: true }));
+        input.dispatchEvent(new Event('change', { bubbles: true, cancelable: true }));
+        this.dispatch('pasted', { detail: { files: files } });
+        document.activeElement.blur();
+      }
+      e.preventDefault();
     }
-    e.preventDefault();
   }
 
   findFiles(items, multiple) {
