@@ -1,11 +1,11 @@
-global.$ = document.querySelector.bind(document);
-global.$$ = document.querySelectorAll.bind(document);
-
 import { Application } from '@hotwired/stimulus';
 import PastezoneController from 'index';
 
 const application = Application.start();
 application.register('pastezone', PastezoneController);
+
+global.$ = document.querySelector.bind(document);
+global.$$ = document.querySelectorAll.bind(document);
 
 global.createPasteEvent = function(type, files) {
   let event = new CustomEvent(type, { bubbles: true });
