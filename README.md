@@ -4,7 +4,7 @@ A stimulus controller to paste clipboard data to input tag using Ctrl+V.
 
 ## Dependencies
 
-* @hotwired/stimulus 3.0
+* @hotwired/stimulus 3.0+
 
 ## Installation
 
