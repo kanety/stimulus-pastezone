@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.3.0
+
+* Add feature for pasting text data as a file.
+
 ## 1.2.0
 
 * Move dependencies to peerDependencies.
