@@ -20,8 +20,8 @@ describe('calbacks', () => {
 
     $('div').focus();
     $('div').dispatchEvent(createPasteEvent('paste', [
-      { name: 'file1.txt', type: 'text/plain', size: 1 },
-      { name: 'file2.txt', type: 'text/plain', size: 1 }
+      { kind: 'file', name: 'file1.txt', type: 'text/plain', size: 1 },
+      { kind: 'file', name: 'file2.txt', type: 'text/plain', size: 1 }
     ]));
   });
 

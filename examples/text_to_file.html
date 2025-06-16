@@ -20,16 +20,11 @@
   </script>
 </head>
 <body>
-  <h1>Callbacks</h1>
-  <div tabindex="-1" data-controller="pastezone">
+  <h1>Text to file</h1>
+  <div tabindex="-1" data-controller="pastezone"
+                     data-pastezone-text-to-file-value='{"text/plain":"clipboard.txt","*":"clipboard.dat"}'>
     <input type="file" multiple>
     <p>Paste here</p>
   </div>
-  <script>
-    let element = document.querySelector('[data-controller="pastezone"]');
-    element.addEventListener('pastezone:pasted', e => {
-      console.log('pasted: ', e.detail);
-    });
-  </script>
 </body>
 </html>

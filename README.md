@@ -33,7 +33,19 @@ Build html as follows:
 </div>
 ```
 
-Pasted clipboard data will be set in the input tag:
+Pasted file will be set in the input tag.
+
+### Paste text as a file
+
+If you want to set text data in the clipboard as a file, set filename per content type as follows:
+
+```html
+<div tabindex="-1" data-controller="pastezone"
+                   data-pastezone-text-to-file-value='{"text/plain":"clipboard.txt","*":"clipboard.dat"}'>
+  <input type="file">
+  <p>Paste here</p>
+</div>
+```
 
 ### Callbacks
 

@@ -12,13 +12,16 @@ global.createPasteEvent = function(type, files) {
   event.clipboardData = {
     items: files.map(file => {
       return {
-        kind: 'file',
+        kind: file.kind,
         type: file.type,
         getAsFile: (_) => {
           return { name: file.name, type: file.type, size: file.size };
         }
       }
-    })
+    }),
+    getData: (type) => {
+      return files.find(file => file.type == type).data;
+    }
   };
   return event;
 }
