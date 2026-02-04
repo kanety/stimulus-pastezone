@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.4.0
+
+* Support directory pastes.
+
 ## 1.3.0
 
 * Add feature for pasting text data as a file.
