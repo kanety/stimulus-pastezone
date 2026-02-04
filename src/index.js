@@ -1,9 +1,12 @@
 import { Controller } from '@hotwired/stimulus';
 import '@kanety/stimulus-static-actions';
+import StringScanner from './string-scanner.js';
+import FileScanner from './file-scanner.js';
 
 export default class extends Controller {
   static values = {
-    textToFile: Object
+    textToFile: Object,
+    allowDirs: Boolean
   };
   static actions = [
     ['element', 'paste->paste']
@@ -13,59 +16,43 @@ export default class extends Controller {
     return this.scope.findElement('input[type=file]');
   }
 
-  paste(e) {
+  async paste(e) {
     if (this.element != document.activeElement) return;
+    if (this.input.disabled) return;
 
-    let input = this.input;
-    let files = this.convertToFiles(e.clipboardData);
-    let dt = this.buildDataTransfer(files, input.multiple);
+    const files = [];
 
-    if (dt.files.length) {
-      if (!input.disabled) {
-        this.setFiles(input, dt.files);
-        document.activeElement.blur();
-      }
+    if (this.hasTextToFileValue) {
+      const stringScanner = new StringScanner({ textToFile: this.textToFileValue });
+      files.push(...stringScanner.scan(e.clipboardData));
+    }
+
+    const scanner = new FileScanner({ allowDirs: this.allowDirsValue });
+    files.push(...await scanner.scan(e.clipboardData.items));
+
+    if (files.length) {
+      this.setFiles(files);
+      document.activeElement.blur();
       e.preventDefault();
     }
   }
 
-  convertToFiles(clipboardData) {
-    let files = []
-    Array.from(clipboardData.items).forEach(item => {
-      if (item.kind == 'file') {
-        files.push(item.getAsFile(item.type));
-      } else {
-        let data = clipboardData.getData(item.type);
-        let filename = this.filenameFor(item.type);
-        if (filename) files.push(this.convertToFile(data, filename, item.type));
-      }
-    });
-    return files;
+  setFiles(files) {
+    const input = this.input;
+    const dt = this.buildDataTransfer(files);
+    input.files = dt.files;
+    input.dispatchEvent(new Event('input', { bubbles: true, cancelable: true }));
+    input.dispatchEvent(new Event('change', { bubbles: true, cancelable: true }));
+    this.dispatch('pasted', { detail: { files: files } });
   }
 
-  filenameFor(type) {
-    return this.textToFileValue[type] || this.textToFileValue['*'];
-  }
-
-  convertToFile(data, filename, type) {
-    let blob = new Blob([data], { type: type });
-    return new File([blob], filename, { type: type });
-  }
-
-  buildDataTransfer(files, multiple) {
+  buildDataTransfer(files) {
     let dt = new DataTransfer();
     files.forEach(file => {
-      if (multiple || dt.items.length < 1) {
+      if (this.input.multiple || dt.items.length < 1) {
         dt.items.add(file);
       }
     });
     return dt;
-  }
-
-  setFiles(input, files) {
-    input.files = files;
-    input.dispatchEvent(new Event('input', { bubbles: true, cancelable: true }));
-    input.dispatchEvent(new Event('change', { bubbles: true, cancelable: true }));
-    this.dispatch('pasted', { detail: { files: files } });
   }
 }

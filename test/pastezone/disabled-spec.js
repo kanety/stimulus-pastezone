@@ -1,4 +1,4 @@
-describe('basic', () => {
+describe('disabled', () => {
   beforeEach(() => {
     document.body.innerHTML = `
       <div tabindex="-1" data-controller="pastezone">

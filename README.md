@@ -35,7 +35,21 @@ Build html as follows:
 
 Pasted file will be set in the input tag.
 
-### Paste text as a file
+### Options
+
+#### allow-dirs
+
+Allow directory pasting:
+
+```html
+<div tabindex="-1" data-controller="pastezone"
+                   data-allow-dirs-value="true">
+  <input type="file" multiple>
+  <p>Drop here</p>
+</div>
+```
+
+#### text-to-file
 
 If you want to set text data in the clipboard as a file, set filename per content type as follows:
 

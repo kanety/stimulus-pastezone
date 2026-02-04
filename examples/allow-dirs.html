@@ -20,9 +20,10 @@
   </script>
 </head>
 <body>
-  <h1>Disabled</h1>
-  <div tabindex="-1" data-controller="pastezone">
-    <input type="file" multiple disabled>
+  <h1>Allow dirs</h1>
+  <div tabindex="-1" data-controller="pastezone"
+                     data-pastezone-allow-dirs-value="true">
+    <input type="file" multiple>
     <p>Paste here</p>
   </div>
 </body>
